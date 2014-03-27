@@ -5,10 +5,10 @@ class UrlShortener
     @url = url
   end
 
-  def shorten(id)
+  def shorten(id, domain)
     url_hash = {}
     url_hash[:old_url] = url
-    url_hash[:new_url_id] = id
+    url_hash[:new_url] = "#{domain}#{id}"
     url_hash
   end
 end
