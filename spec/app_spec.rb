@@ -7,6 +7,9 @@ Capybara.app = App
 feature 'setting up url shortener app' do
   scenario 'user can see homepage with a form with placeholder text' do
     visit '/'
-    expect(page).to be
+    fill_in 'Enter URL to shorten', :with => 'Text'
+    within 'form' do
+      click_button 'Shorten'
+    end
   end
 end
