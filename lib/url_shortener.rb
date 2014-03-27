@@ -7,7 +7,8 @@ class UrlShortener
 
   def shorten(id)
     url_hash = {}
-    url_hash[self.url] = id
+    url_hash[:old_url] = url
+    url_hash[:new_url_id] = id
     url_hash
   end
 end
