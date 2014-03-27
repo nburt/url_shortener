@@ -1,11 +1,11 @@
 url_shortener
-=============
-Tracker Project
+
+Tracker Project:
 https://www.pivotaltracker.com/n/projects/1047372
-=============
+
 Staging environment:
-sheltered-chamber-7594.herokuapp.com
+http://sheltered-chamber-7594.herokuapp.com
 
 Production environment:
-sheltered-shore-2572.herokuapp.com
+http://sheltered-shore-2572.herokuapp.com
 
