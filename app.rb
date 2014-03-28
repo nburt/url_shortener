@@ -21,4 +21,8 @@ class App < Sinatra::Base
     id = params[:id].to_i
     erb :show_stats, :locals => { :old_url => LINKS_REPO.urls[id-1][:old_url], :new_url => LINKS_REPO.urls[id-1][:new_url] }
   end
+
+  get '/:id' do
+    redirect LINKS_REPO.urls[(params[:id].to_i) - 1][:old_url]
+  end
 end
