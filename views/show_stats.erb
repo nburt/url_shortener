@@ -4,10 +4,31 @@
   <link href="<%= url('css/stylesheet.css') %>" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div class="url_info">
-  <p>Original URL: <%= old_url %></p>
-  <p>"Shortened" URL: <a href="<%= new_url %>"><%= new_url %></a></p>
-  <p><a href="/">Shorten another URL</a></p>
-</div>
+<table class="url_info">
+  <tr>
+    <td>
+      Original URL
+    </td>
+    <td>
+      <%= old_url %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      "Shortened" URL
+    </td>
+    <td>
+      <%= new_url %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+
+    </td>
+    <td>
+      <a href="/">"Shorten" another URL</a>
+    </td>
+  </tr>
+</table>
 </body>
 </html>
