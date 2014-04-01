@@ -33,5 +33,14 @@ feature 'setting up url shortener app' do
     expect(page).to have_content 'gschool.it'
     click_on 'http://localhost:9292/3'
     expect(current_url).to eq 'http://gschool.it/'
+
+    the 'user sees an error message on the homepage if they enter an invalid url' do
+      visit '/'
+      fill_in 'Enter URL to shorten', :with => 'gschool'
+      within 'form' do
+        click_button 'Shorten'
+      end
+      expect(page).to have_content 'The text you entered is not a valid URL.'
+    end
   end
 end

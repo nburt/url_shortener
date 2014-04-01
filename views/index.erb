@@ -4,6 +4,7 @@
   <link href="<%= url('css/stylesheet.css') %>" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<p><%= session[:message] %></p>
 <form id="url_shorten_form" action="/" method="post">
   <input type="text" placeholder="Enter URL to shorten" name="url">
   <input type="submit" value="Shorten">
