@@ -23,6 +23,7 @@ class App < Sinatra::Base
       redirect "/#{id}?stats=#{stats}"
     elsif url.empty?
       session[:message] = ErrorMessage.new.blank
+      redirect '/'
     else
       session[:message] = ErrorMessage.new.invalid
       redirect '/'
