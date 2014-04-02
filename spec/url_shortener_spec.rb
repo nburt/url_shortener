@@ -6,7 +6,8 @@ describe UrlShortener do
     url = UrlShortener.new('www.gschool.it')
     expect(url.shorten(1, 'http://localhost:9292/')).to eq ({:old_url => 'http://www.gschool.it',
                                                              :new_url => 'http://localhost:9292/1',
-                                                             :stats => true})
+                                                             :stats => true,
+                                                             :total_visits => 0})
   end
 
   it 'returns false if an invalid URL is entered into shortener' do

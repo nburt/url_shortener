@@ -10,6 +10,7 @@ class UrlShortener
     url_hash[:old_url] = create_usable_url
     url_hash[:new_url] = "#{domain}#{id}"
     url_hash[:stats] = true
+    url_hash[:total_visits] = 0
     url_hash
   end
 

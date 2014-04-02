@@ -52,7 +52,7 @@ feature 'setting up url shortener app' do
       expect(page).to have_content 'The text you entered is not a valid URL.'
     end
 
-    and_the 'User sees and error message on the homepage if they leave the input field blank' do
+    and_the 'user sees and error message on the homepage if they leave the input field blank' do
       visit '/'
       fill_in 'Enter URL to shorten', :with => ''
       within 'form' do
@@ -60,6 +60,22 @@ feature 'setting up url shortener app' do
       end
       expect(page).to have_content 'The URL cannot be blank'
     end
-  end
 
+    and_the 'user will see the number of times the shortened URL has been clicked on the stats page' do
+      visit '/'
+      fill_in 'Enter URL to shorten', :with => 'google.com'
+      within 'form' do
+        click_button 'Shorten'
+      end
+      expect(page).to have_content 'Number of shortened URL visits: 0'
+      5.times do
+        visit '/5'
+      end
+      5.times do
+        visit '/1?stats=true'
+      end
+      visit '/5?stats=true'
+      expect(page).to have_content 'Number of shortened URL visits: 5'
+    end
+  end
 end

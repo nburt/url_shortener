@@ -1,4 +1,3 @@
-require 'sinatra'
 require 'sinatra/base'
 require './lib/url_repository'
 require './lib/url_shortener'
@@ -19,7 +18,7 @@ class App < Sinatra::Base
     url = params[:url]
     if UrlShortener.new(url).url_is_valid?
       LINKS_REPO.urls << UrlShortener.new(url).shorten(id, request.url)
-      stats = LINKS_REPO.urls[id -1][:stats]
+      stats = LINKS_REPO.urls[id-1][:stats]
       redirect "/#{id}?stats=#{stats}"
     elsif url.empty?
       session[:message] = ErrorMessage.new.blank
@@ -31,10 +30,12 @@ class App < Sinatra::Base
   end
 
   get '/:id' do
+    id = params[:id].to_i
+    url_hash = LINKS_REPO.urls[id-1]
     if params[:stats]
-      id = params[:id].to_i
-      erb :show_stats, :locals => {:old_url => LINKS_REPO.urls[id-1][:old_url], :new_url => LINKS_REPO.urls[id-1][:new_url]}
+      erb :show_stats, :locals => {:old_url => url_hash[:old_url], :new_url => url_hash[:new_url], :visit_count => url_hash[:total_visits]}
     else
+      url_hash[:total_visits] += 1
       redirect LINKS_REPO.urls[(params[:id].to_i) - 1][:old_url]
     end
   end
