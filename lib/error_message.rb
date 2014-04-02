@@ -5,6 +5,6 @@ class ErrorMessage
   end
 
   def blank
-    "The URL cannot be blank"
+    "The URL cannot be blank."
   end
 end
