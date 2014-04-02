@@ -67,7 +67,7 @@ feature 'setting up url shortener app' do
       within 'form' do
         click_button 'Shorten'
       end
-      expect(page).to have_content 'Number of shortened URL visits: 0'
+      expect(page).to have_content 'Visits: 0'
       5.times do
         visit '/5'
       end
@@ -75,7 +75,7 @@ feature 'setting up url shortener app' do
         visit '/1?stats=true'
       end
       visit '/5?stats=true'
-      expect(page).to have_content 'Number of shortened URL visits: 5'
+      expect(page).to have_content 'Visits: 5'
     end
   end
 end
