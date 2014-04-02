@@ -21,6 +21,8 @@ class App < Sinatra::Base
       LINKS_REPO.urls << UrlShortener.new(url).shorten(id, request.url)
       stats = LINKS_REPO.urls[id -1][:stats]
       redirect "/#{id}?stats=#{stats}"
+    elsif url.empty?
+      session[:message] = ErrorMessage.new.blank
     else
       session[:message] = ErrorMessage.new.invalid
       redirect '/'
