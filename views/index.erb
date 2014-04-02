@@ -6,6 +6,7 @@
 <body>
 <div class="url_shorten_container">
   <p class="error_message"><%= session[:message] %></p>
+  <% session.delete(:message) %>
   <form action="/" method="post">
     <input type="text" placeholder="Enter URL to shorten" name="url">
     <input type="submit" value="Shorten">

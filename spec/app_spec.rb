@@ -61,6 +61,11 @@ feature 'setting up url shortener app' do
       expect(page).to have_content 'The URL cannot be blank'
     end
 
+    and_the 'user will not see an error message when they refresh the page' do
+      visit '/'
+      expect(page).to_not have_content 'The URL cannot be blank'
+    end
+
     and_the 'user will see the number of times the shortened URL has been clicked on the stats page' do
       visit '/'
       fill_in 'Enter URL to shorten', :with => 'google.com'
