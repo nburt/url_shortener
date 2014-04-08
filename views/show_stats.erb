@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Stats for <%= new_url %></title>
+  <title>Stats for <%= request.base_url %>/<%= url_id %></title>
   <link href="<%= url('css/stylesheet.css') %>" rel="stylesheet" type="text/css"/>
 </head>
 <body>
@@ -10,7 +10,7 @@
       Original URL
     </td>
     <td>
-      <%= old_url %>
+      <%= original_url %>
     </td>
   </tr>
   <tr>
@@ -18,7 +18,7 @@
       "Shortened" URL
     </td>
     <td>
-      <%= new_url %>
+      <%= request.base_url %>/<%= url_id %>
     </td>
   </tr>
   <tr>
