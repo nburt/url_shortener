@@ -21,6 +21,24 @@ feature 'setting up url shortener app' do
     expect(page).to have_content 'http://gschool.it'
     visit current_link_path
     expect(current_url).to eq 'http://gschool.it/'
+
+    visit '/'
+    fill_in 'Enter URL to shorten', :with => 'www.gschool.it'
+    within 'form' do
+      click_button 'Shorten'
+    end
+    expect(page).to have_content 'www.gschool.it'
+    visit 'http://localhost:9292/2'
+    expect(current_url).to eq 'http://www.gschool.it/'
+
+    visit '/'
+    fill_in 'Enter URL to shorten', :with => 'gschool.it'
+    within 'form' do
+      click_button 'Shorten'
+    end
+    expect(page).to have_content 'gschool.it'
+    visit 'http://localhost:9292/3'
+    expect(current_url).to eq 'http://gschool.it/'
   end
 
   scenario 'user can return to the homepage to shorten another link' do

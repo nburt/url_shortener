@@ -9,7 +9,7 @@ class UrlValidator
   def validate(url)
     if url.empty?
       ValidationUrlResult.new(false, "The URL cannot be blank.")
-    elsif !url.start_with?("http://") || url !~ /[.][A-Za-z]{2,}/
+    elsif url !~ /[.][A-Za-z]{2,}/
       ValidationUrlResult.new(false, "The text you entered is not a valid URL.")
     else
       usable_url = UrlNormalizer.new(url).result

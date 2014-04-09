@@ -32,7 +32,7 @@ class App < Sinatra::Base
     validator = UrlValidator.new
     validation_result = validator.validate(url)
     if validation_result.success?
-      links_repo.urls << links_repo.shorten(id, url)
+      links_repo.urls << links_repo.shorten(id, UrlNormalizer.new(url).result)
       stats = links_repo.urls[id - 1][:stats]
       redirect stats_path(id, stats)
     else
