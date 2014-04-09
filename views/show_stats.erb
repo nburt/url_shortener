@@ -18,7 +18,11 @@
       "Shortened" URL
     </td>
     <td>
-      <%= request.base_url %>/<%= url_id %>
+      <% if links_repo.get_vanity_url(url_id) == '' %>
+        <%= request.base_url %>/<%= url_id %>
+      <% else %>
+        <%= request.base_url %>/<%= vanity_url %>
+      <% end %>
     </td>
   </tr>
   <tr>

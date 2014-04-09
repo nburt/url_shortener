@@ -94,4 +94,18 @@ feature 'setting up url shortener app' do
     end
   end
 
+  scenario 'user can enter in a vanity url' do
+    visit '/'
+    fill_in 'Enter URL to shorten', :with => 'http://google.com'
+    fill_in 'Enter vanity URL', :with => 'google'
+    within 'form' do
+      click_button 'Shorten'
+    end
+    expect(page).to have_content 'http://google.com'
+    id = id_of_created_url(current_path)
+    expect(page).to have_content 'http://localhost:9292/google'
+    visit '/google'
+    expect(current_url).to eq 'http://google.com/'
+  end
+
 end

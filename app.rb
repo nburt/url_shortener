@@ -28,11 +28,12 @@ class App < Sinatra::Base
 
   post '/' do
     url = params[:url]
+    vanity_url = params[:vanity_url]
     validator = UrlValidator.new
     validation_result = validator.validate(url)
     if validation_result.success?
-      id = links_repo.insert(UrlNormalizer.new(url).result)
-      redirect stats_path(id)
+      identification = links_repo.insert(UrlNormalizer.new(url).result, vanity_url)
+      redirect stats_path(identification)
     else
       session[:message] = validation_result.error_message
       redirect root_path
@@ -40,15 +41,16 @@ class App < Sinatra::Base
   end
 
   get '/:id' do
-    id = params[:id].to_i
-    url_hash = links_repo.display_row(id)
+    identification = params[:id]
+    original_url = links_repo.get_original_url(identification)
     if params[:stats]
-      erb :show_stats, :locals => {:original_url => url_hash[:original_url],
-                                   :url_id => url_hash[:id],
-                                   :visit_count => url_hash[:total_visits]}
+      erb :show_stats, :locals => {:original_url => original_url,
+                                   :url_id => identification,
+                                   :visit_count => links_repo.get_visits(identification),
+                                   :vanity_url => links_repo.get_vanity_url(identification)}
     else
-      links_repo.add_visit(id)
-      redirect links_repo.display_row(id)[:original_url]
+      links_repo.add_visit(identification)
+      redirect links_repo.get_original_url(identification)
     end
   end
 end

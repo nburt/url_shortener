@@ -9,6 +9,7 @@
   <% session.delete(:message) %>
   <form action="<%= root_path %>" method="post">
     <input type="text" placeholder="Enter URL to shorten" name="url">
+    <input type="text" placeholder="Enter vanity URL" name="vanity_url">
     <input type="submit" value="Shorten">
   </form>
 </div>
