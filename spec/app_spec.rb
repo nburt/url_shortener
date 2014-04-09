@@ -7,10 +7,9 @@ Capybara.app_host = 'http://localhost:9292'
 
 feature 'setting up url shortener app' do
 
-  before { App.reset_links_repo }
-
-  let(:current_link_path) { '/1' }
-  let(:current_link_stats_path) { "#{current_link_path}?stats=true" }
+  before do
+    App.reset_links_repo(DB)
+  end
 
   scenario 'user can submit a link, see the new shortened url, and is redirected to the original url if they click on it' do
     visit '/'
@@ -19,7 +18,9 @@ feature 'setting up url shortener app' do
       click_button 'Shorten'
     end
     expect(page).to have_content 'http://gschool.it'
-    visit current_link_path
+    id = id_of_created_url(current_path)
+    expect(page).to have_content "http://localhost:9292/#{id}"
+    visit "/#{id}"
     expect(current_url).to eq 'http://gschool.it/'
 
     visit '/'
@@ -28,7 +29,8 @@ feature 'setting up url shortener app' do
       click_button 'Shorten'
     end
     expect(page).to have_content 'www.gschool.it'
-    visit 'http://localhost:9292/2'
+    id = id_of_created_url(current_path)
+    visit "http://localhost:9292/#{id}"
     expect(current_url).to eq 'http://www.gschool.it/'
 
     visit '/'
@@ -37,7 +39,8 @@ feature 'setting up url shortener app' do
       click_button 'Shorten'
     end
     expect(page).to have_content 'gschool.it'
-    visit 'http://localhost:9292/3'
+    id = id_of_created_url(current_path)
+    visit "http://localhost:9292/#{id}"
     expect(current_url).to eq 'http://gschool.it/'
   end
 
@@ -70,20 +73,25 @@ feature 'setting up url shortener app' do
     within 'form' do
       click_button 'Shorten'
     end
+    id = id_of_created_url(current_path)
 
-    # Initial visit count should be 0
-    expect(page).to have_content 'Visits: 0'
-
-    # Visit count should increment each time I visit the link
-    5.times do
-      visit current_link_path
+    the 'Initial visit count should be 0' do
+      expect(page).to have_content 'Visits: 0'
     end
 
-    # Visit count should not increment when hitting the stats path
-    5.times do
-      visit current_link_stats_path
+    and_the 'Visit count should increment each time I visit the link' do
+      5.times do
+        visit "/#{id}"
+      end
     end
-    visit current_link_stats_path
-    expect(page).to have_content 'Visits: 5'
+
+    and_the 'Visit count should not increment when hitting the stats path' do
+      5.times do
+        visit "/#{id}?stats=true"
+      end
+      visit "/#{id}?stats=true"
+      expect(page).to have_content 'Visits: 5'
+    end
   end
+
 end

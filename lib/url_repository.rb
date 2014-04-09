@@ -1,17 +1,29 @@
 class UrlRepository
-  attr_reader :urls
+  attr_reader :db
 
-  def initialize
-    @urls = []
+  def initialize(db)
+    @db = db
+    @urls_table = db[:urls]
   end
 
-  def shorten(id, url)
-    url_hash = {}
-    url_hash[:original_url] = url
-    url_hash[:url_id] = id.to_s
-    url_hash[:stats] = true
-    url_hash[:total_visits] = 0
-    url_hash
+  def insert(url)
+    @urls_table.insert(:original_url => url)
+  end
+
+  def display_all
+    @urls_table.all
+  end
+
+  def display_row(id)
+    @urls_table[:id => id]
+  end
+
+  def add_visit(id)
+    @urls_table.where(:id => id).update(:total_visits => get_visits(id)+ 1)
+  end
+
+  def get_visits(id)
+    @urls_table[:id => id][:total_visits]
   end
 
 end

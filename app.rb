@@ -9,11 +9,11 @@ class App < Sinatra::Base
   include UrlHelpers
 
   def self.links_repo
-    @links_repo ||= UrlRepository.new
+    @links_repo ||= UrlRepository.new(DB)
   end
 
-  def self.reset_links_repo
-    @links_repo = UrlRepository.new
+  def self.reset_links_repo(db)
+    @links_repo = UrlRepository.new(db)
   end
 
   def links_repo
@@ -27,14 +27,12 @@ class App < Sinatra::Base
   end
 
   post '/' do
-    id = links_repo.urls.count + 1
     url = params[:url]
     validator = UrlValidator.new
     validation_result = validator.validate(url)
     if validation_result.success?
-      links_repo.urls << links_repo.shorten(id, UrlNormalizer.new(url).result)
-      stats = links_repo.urls[id - 1][:stats]
-      redirect stats_path(id, stats)
+      id = links_repo.insert(UrlNormalizer.new(url).result)
+      redirect stats_path(id)
     else
       session[:message] = validation_result.error_message
       redirect root_path
@@ -43,14 +41,14 @@ class App < Sinatra::Base
 
   get '/:id' do
     id = params[:id].to_i
-    url_hash = links_repo.urls[id - 1]
+    url_hash = links_repo.display_row(id)
     if params[:stats]
       erb :show_stats, :locals => {:original_url => url_hash[:original_url],
-                                   :url_id => url_hash[:url_id],
+                                   :url_id => url_hash[:id],
                                    :visit_count => url_hash[:total_visits]}
     else
-      url_hash[:total_visits] += 1
-      redirect links_repo.urls[id - 1][:original_url]
+      links_repo.add_visit(id)
+      redirect links_repo.display_row(id)[:original_url]
     end
   end
 end
