@@ -1,6 +1,6 @@
 module UrlHelpers
 
-  def link_path(id, stats)
+  def stats_path(id, stats)
     "/#{id}?stats=#{stats}"
   end
 

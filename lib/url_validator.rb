@@ -1,22 +1,19 @@
+require_relative '../lib/url_validation_result'
+require_relative '../lib/url_helpers'
+require_relative '../lib/url_normalizer'
+
+include UrlHelpers
+
 class UrlValidator
-  attr_reader :url
 
-  def initialize(url)
-    @url = url
-  end
-
-  def url_is_valid?
-    url_to_check = create_usable_url
-    !!(url_to_check =~ URI::DEFAULT_PARSER.regexp[:ABS_URI] && /[.][A-Za-z]{2,}/.match(@url) != nil)
-  end
-
-  def create_usable_url
-    if /(^https:\/\/)/.match(@url) != nil
-      "#{@url}"
-    elsif /(^http:\/\/)/.match(@url) != nil
-      "#{@url}"
+  def validate(url)
+    if url.empty?
+      ValidationUrlResult.new(false, "The URL cannot be blank.")
+    elsif !url.start_with?("http://") || url !~ /[.][A-Za-z]{2,}/
+      ValidationUrlResult.new(false, "The text you entered is not a valid URL.")
     else
-      "http://#{@url}"
+      usable_url = UrlNormalizer.new(url).result
+      ValidationUrlResult.new(true, usable_url)
     end
   end
 

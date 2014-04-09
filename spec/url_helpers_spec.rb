@@ -5,7 +5,7 @@ include UrlHelpers
 describe UrlHelpers do
 
   it 'creates a path to the stats page' do
-    expect(link_path(1, true)).to eq '/1?stats=true'
+    expect(stats_path(1, true)).to eq '/1?stats=true'
   end
 
   it 'creates a root path' do
