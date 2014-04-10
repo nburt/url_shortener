@@ -29,10 +29,17 @@ input[type="submit"] {
   color: #FFFFFF;
 }
 
-p.error_message {
+p#error_message {
   color: #FF0011;
   margin: auto;
   font-size: 1.25em;
+}
+
+p#vanity_error_message {
+  color: #FF0011;
+  margin: auto;
+  font-size: 1.25em;
+  text-align: center;
 }
 
 table.url_info {

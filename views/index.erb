@@ -5,13 +5,15 @@
 </head>
 <body>
 <div class="url_shorten_container">
-  <p class="error_message"><%= session[:message] %></p>
+  <p id="error_message"><%= session[:message] %></p>
   <% session.delete(:message) %>
   <form action="<%= root_path %>" method="post">
     <input type="text" placeholder="Enter URL to shorten" name="url">
+    <p id="vanity_error_message"><%= session[:vanity_message] %></p>
     <input type="text" placeholder="Enter vanity URL" name="vanity_url">
     <input type="submit" value="Shorten">
   </form>
+  <% session.delete(:vanity_message) %>
 </div>
 </body>
 </html>

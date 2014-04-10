@@ -10,13 +10,13 @@ describe UrlRepository do
   end
 
   it 'can find urls by id' do
-    id = @url_repository.insert('www.google.com')
-    @url_repository.insert('www.gschool.it')
+    id = @url_repository.insert('www.google.com', '')
+    @url_repository.insert('www.gschool.it', '')
     expect(@url_repository.get_original_url(id.to_s)).to eq 'www.google.com'
   end
 
   it 'can update visits in the table' do
-    id = @url_repository.insert('www.google.com')
+    id = @url_repository.insert('www.google.com', '')
     @url_repository.add_visit(id.to_s)
     @url_repository.add_visit(id.to_s)
     expect(@url_repository.get_visits(id.to_s)).to eq 2

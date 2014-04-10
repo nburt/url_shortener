@@ -6,8 +6,12 @@ class UrlRepository
     @urls_table = db[:urls]
   end
 
-  def insert(url, vanity_url='')
-    @urls_table.insert(:original_url => url, :vanity_url => vanity_url)
+  def insert(url, vanity_url)
+    if vanity_url.empty?
+      @urls_table.insert(:original_url => url)
+    else
+      @urls_table.insert(:original_url => url, :vanity_url => vanity_url)
+    end
   end
 
   def get_original_url(identification)
@@ -38,7 +42,7 @@ class UrlRepository
     if identification.to_i.to_s == identification
       @urls_table[:id => identification.to_i][:vanity_url]
     else
-      identification
+      @urls_table[:vanity_url => identification.to_i][:vanity_url]
     end
   end
 end

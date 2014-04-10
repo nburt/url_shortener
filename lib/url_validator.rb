@@ -1,5 +1,4 @@
 require_relative '../lib/url_validation_result'
-require_relative '../lib/url_helpers'
 require_relative '../lib/url_normalizer'
 
 include UrlHelpers

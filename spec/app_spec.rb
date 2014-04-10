@@ -8,7 +8,7 @@ Capybara.app_host = 'http://localhost:9292'
 feature 'setting up url shortener app' do
 
   before do
-    App.reset_links_repo(DB)
+    DB[:urls].delete
   end
 
   scenario 'user can submit a link, see the new shortened url, and is redirected to the original url if they click on it' do
@@ -106,6 +106,43 @@ feature 'setting up url shortener app' do
     expect(page).to have_content 'http://localhost:9292/google'
     visit '/google'
     expect(current_url).to eq 'http://google.com/'
+
+    and_the 'user will see an error if the vanity url has already been taken' do
+      visit '/'
+      fill_in 'Enter URL to shorten', :with => 'http://google.com'
+      fill_in 'Enter vanity URL', :with => 'google'
+      within 'form' do
+        click_button 'Shorten'
+      end
+      expect(page).to have_content 'Sorry, that vanity URL has already been taken.'
+    end
+
+    and_the 'user will see an error if the vanity url is longer than 12 characters' do
+      visit '/'
+      fill_in 'Enter URL to shorten', :with => 'http://google.com'
+      fill_in 'Enter vanity URL', :with => 'googleeeeeeeeeeeeeee'
+      within 'form' do
+        click_button 'Shorten'
+      end
+      expect(page).to have_content 'Sorry, vanity URLs cannot be longer than 12 characters.'
+    end
+  end
+
+  scenario 'user enters an invalid url and a vanity url that has already been taken' do
+    visit '/'
+    fill_in 'Enter URL to shorten', :with => 'http://google.com'
+    fill_in 'Enter vanity URL', :with => 'google'
+    within 'form' do
+      click_button 'Shorten'
+    end
+    visit '/'
+    fill_in 'Enter URL to shorten', :with => 'http://google'
+    fill_in 'Enter vanity URL', :with => 'google'
+    within 'form' do
+      click_button 'Shorten'
+    end
+    expect(page).to have_content 'The text you entered is not a valid URL.'
+    expect(page).to have_content 'Sorry, that vanity URL has already been taken.'
   end
 
 end
