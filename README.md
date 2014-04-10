@@ -11,28 +11,25 @@ http://sheltered-chamber-7594.herokuapp.com
 Production environment:
 http://sheltered-shore-2572.herokuapp.com
 
-#Welcome
+#Development
 
 The URL shortener allows the user to shorten URLs for readability and easier sharing
 on social media.
 
 #Getting Started
 
-1. Fork/clone repository
-
-2. Run Bundler by typing `bundle install`
+1. `bundle install`
 
 Bundler will download and install the required gems to run the URL shortener
 
-3. Run test suite by typing `rspec`
+1. Create databases by running `psql -d postgres -f scripts/create_database.sql`
 
-The tests are written in Capybara and RSpec
+1. Run migrations by typing `rake db:migrate`
 
-4. Type `rerun rackup` to initiate the local server
+1. Run test suite with `rspec`
 
-Rerun is a gem that will automatically restart the local server each time a change
-is made.
+1. Type `rerun rackup` to initiate the local server, `rerun` will reload the app when file changes are detected
 
-Rackup is a gem that will run the local server.
+#Migrations on Heroku
 
-For more information on gems please visit http://rubygems.org
+heroku run 'sequel -m migrations $HEROKU_POSTGRESQL_PINK_URL' --app sheltered-chamber-7594
