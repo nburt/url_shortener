@@ -13,6 +13,10 @@ class VanityUrlValidator
       VanityValidationResult.new(false, "Sorry, that vanity URL has already been taken.")
     elsif vanity_url.length >= 12
       VanityValidationResult.new(false, "Sorry, vanity URLs cannot be longer than 12 characters.")
+    elsif vanity_url =~ /\d/
+      VanityValidationResult.new(false, "Sorry, vanity URLs can only contain letters.")
+    elsif vanity_url =~ /\W/
+      VanityValidationResult.new(false, "Sorry, vanity URLs can only contain letters.")
     else
       VanityValidationResult.new(true, "")
     end

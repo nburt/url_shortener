@@ -4,7 +4,6 @@ require './lib/url_helpers'
 require './lib/url_validator'
 require './lib/url_normalizer'
 require './lib/vanity_url_validator'
-require './lib/vanity_url_validation_result'
 
 class App < Sinatra::Base
 
