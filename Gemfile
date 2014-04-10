@@ -4,6 +4,7 @@ gem 'sinatra', '~> 1.4.4'
 gem 'sequel', '~> 4.9.0'
 gem 'pg', '~> 0.17.1'
 gem 'dotenv', '~> 0.10.0'
+gem 'obscenity', '~> 1.0.2'
 
 group :development, :test do
   gem 'launchy', '~> 2.4.2'

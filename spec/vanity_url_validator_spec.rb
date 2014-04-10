@@ -42,5 +42,11 @@ describe VanityUrlValidator do
     expect(result.vanity_error_message).to eq 'Sorry, vanity URLs can only contain letters.'
   end
 
-  it 'displays an error if there is profanity in the vanity url'
+  it 'displays an error if there is profanity in the vanity url' do
+    vanity_url_validator = VanityUrlValidator.new(DB)
+    result = vanity_url_validator.validate_vanity('fuck')
+
+    expect(result.is_valid?).to eq false
+    expect(result.vanity_error_message).to eq 'Sorry, vanity URLs cannot contain any profanity.'
+  end
 end

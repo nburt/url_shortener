@@ -1,4 +1,6 @@
 require './lib/vanity_url_validation_result'
+require 'obscenity'
+require 'yaml'
 
 class VanityUrlValidator
 
@@ -17,6 +19,8 @@ class VanityUrlValidator
       VanityValidationResult.new(false, "Sorry, vanity URLs can only contain letters.")
     elsif vanity_url =~ /\W/
       VanityValidationResult.new(false, "Sorry, vanity URLs can only contain letters.")
+    elsif Obscenity.profane?(vanity_url)
+      VanityValidationResult.new(false, "Sorry, vanity URLs cannot contain any profanity.")
     else
       VanityValidationResult.new(true, "")
     end
