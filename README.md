@@ -20,8 +20,6 @@ on social media.
 
 1. `bundle install`
 
-Bundler will download and install the required gems to run the URL shortener
-
 1. Create databases by running `psql -d postgres -f scripts/create_database.sql`
 
 1. Run migrations by typing `rake db:migrate`
